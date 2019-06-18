@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /doctest
+#spring配置
+spring:
+  mvc:
+    view:
+      prefix: /page
+      suffix: .jsp
+  datasource:
+    url: jdbc:sqlite::resource:doc.db
+    driver-class-name: org.sqlite.JDBC
+    data-username:
+    data-password:
+
