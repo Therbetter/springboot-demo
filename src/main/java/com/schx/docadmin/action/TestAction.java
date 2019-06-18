@@ -1,15 +1,25 @@
 package com.schx.docadmin.action;
 
 import com.schx.docadmin.aop.annotation.Login;
+import com.schx.docadmin.model.Doc;
 import com.schx.docadmin.model.Student;
+import com.schx.docadmin.service.DocService;
 import com.schx.docadmin.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 
 /**
  * @description:
@@ -23,6 +33,8 @@ public class TestAction {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private DocService docService;
 
     @ResponseBody
     @RequestMapping("/testinsert")
@@ -43,4 +55,25 @@ public class TestAction {
         return "testjet";
     }
 
+    @RequestMapping("/testinsertfile")
+    @ResponseBody
+    public int testjet(){
+        return docService.testInsert().getId();
+    }
+
+    @RequestMapping(value = "/testgetfile",method = RequestMethod.GET)
+    public ResponseEntity<InputStreamResource>  testfindFile(){
+       Doc doc= this.docService.findByid(1);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Content-Disposition", "attachment; filename=test.doc");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentLength(doc.getFile().length)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new InputStreamResource(new ByteArrayInputStream(doc.getFile())));
+    }
 }
