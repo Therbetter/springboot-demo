@@ -1,6 +1,7 @@
 package com.schx.docadmin.action;
 
 import com.schx.docadmin.aop.annotation.Login;
+import com.schx.docadmin.aop.annotation.Menu;
 import com.schx.docadmin.model.Doc;
 import com.schx.docadmin.model.Student;
 import com.schx.docadmin.service.DocService;
@@ -82,6 +83,7 @@ public class TestAction {
     }
     @RequestMapping("/testredis")
     @ResponseBody
+    @Menu("code001")
     public String testredis(){
         redisClient.set("testkey","123456");
         return redisClient.get("testkey");

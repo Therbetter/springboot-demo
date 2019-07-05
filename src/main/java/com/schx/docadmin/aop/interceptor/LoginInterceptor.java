@@ -1,6 +1,7 @@
 package com.schx.docadmin.aop.interceptor;
 
 import com.schx.docadmin.aop.annotation.Login;
+import com.schx.docadmin.aop.annotation.Menu;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.method.HandlerMethod;
@@ -24,6 +25,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             //请求的方法被标记了@Login注解,并且请求的参数不为空
             if (!ObjectUtils.isEmpty(signAnnotation)) {//需要对cookie进行验证
                 System.out.println("验证cookie-------------------------");
+            }
+            Menu menuAnotation= ((HandlerMethod) handler).getMethodAnnotation(Menu.class);
+            if (!ObjectUtils.isEmpty(menuAnotation)) {//菜单验证
+                System.out.println("menuAnotation："+menuAnotation.value());
             }
         }
         return true;
