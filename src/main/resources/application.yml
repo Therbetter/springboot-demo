@@ -13,4 +13,16 @@ spring:
     driver-class-name: org.sqlite.JDBC
     data-username:
     data-password:
+  #其他配置文件
+  profiles:
+    active: kafka
+
+redis:
+  host: 192.168.10.141
+  port: 6379
+  timeout: 1000
+  password: q1w2e3r4
+
+
+
 

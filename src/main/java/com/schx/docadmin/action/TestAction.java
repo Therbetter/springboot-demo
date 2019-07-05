@@ -4,6 +4,7 @@ import com.schx.docadmin.aop.annotation.Login;
 import com.schx.docadmin.model.Doc;
 import com.schx.docadmin.model.Student;
 import com.schx.docadmin.service.DocService;
+import com.schx.docadmin.service.RedisClient;
 import com.schx.docadmin.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -35,6 +36,9 @@ public class TestAction {
 
     @Autowired
     private DocService docService;
+
+    @Autowired
+    private RedisClient redisClient;
 
     @ResponseBody
     @RequestMapping("/testinsert")
@@ -75,5 +79,11 @@ public class TestAction {
                 .contentLength(doc.getFile().length)
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(new InputStreamResource(new ByteArrayInputStream(doc.getFile())));
+    }
+    @RequestMapping("/testredis")
+    @ResponseBody
+    public String testredis(){
+        redisClient.set("testkey","123456");
+        return redisClient.get("testkey");
     }
 }

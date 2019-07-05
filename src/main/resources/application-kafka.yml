@@ -1,0 +1,16 @@
+spring:
+  kafka:
+    bootstrap-servers: 192.168.10.155:9092,192.168.10.155:9093,192.168.10.155:9094
+    producer:
+      retries: 0
+      #每次批量发送消息的数量
+      batch-size: 16384
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: test-consumer-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
